@@ -100,3 +100,17 @@ Finally, while we tried to write a clean and well-tested app for you, we will go
 perfect and there are things that could be improved.  We might ask you about your thoughts on some of this code
 later, but this is all part of the scenario - real-world code is never as nice as we'd like.
 
+## Assignment Notes
+
+1) The Child model didn't pass the "smell test". 
+   
+   The way the Child model was setup was not very extensible and it didn't follow standard code practices. The model should've focused on the primary user (i.e. the parent) rather than the child since the parent could have multiple children and is the manager of the household and any account data we add in the future.
+
+   Ultimately, with gifting, the functionality to lookup the recipients shipping information based on a previous order is terrible practice. First, it requires that the user already made an order. Second, there could be multiple addresses assigned to a specific child. Third, it assumes that any of the addresses are accurate. With the parent-children model, we can let the parent set the shipping address for an order from their account.
+
+   Making this change required a lot of alerations to the database and the models. I went with the assumption that this change would affect a small production dataset, so I wanted to include data in the migration as well. If this migration were going to affect a larger table, I would explore a faster, more efficient solution, and include a implementation plan to reduce any side-effects to production operations.
+
+
+
+## Ideas for Future Work
+   - Not all purchases need to be tied to a child, but if the Child model is a proxy for subscriptions, it would still be useful to know which shipments are one-off vs tied to a subscription. The simplest way to do this is to have a user reference on the order, which is required, and then a child/subscription reference, which is optional. This isn't necessary for now, since all orders for a user can be found on a `has_many :through` relationship

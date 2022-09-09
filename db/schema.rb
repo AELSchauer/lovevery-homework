@@ -10,15 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_21_201540) do
+ActiveRecord::Schema.define(version: 2022_09_09_182206) do
 
   create_table "children", force: :cascade do |t|
     t.string "full_name", null: false
     t.date "birthdate", null: false
-    t.string "parent_name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["full_name", "birthdate", "parent_name"], name: "index_children_on_full_name_and_birthdate_and_parent_name", unique: true
+    t.integer "user_id"
+    t.index ["user_id", "full_name", "birthdate"], name: "index_children_on_user_id_and_full_name_and_birthdate", unique: true
+    t.index ["user_id"], name: "index_children_on_user_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -45,6 +46,15 @@ ActiveRecord::Schema.define(version: 2019_09_21_201540) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "full_name", null: false
+    t.string "email_address"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email_address"], name: "index_users_on_email_address"
+  end
+
+  add_foreign_key "children", "users"
   add_foreign_key "orders", "children"
   add_foreign_key "orders", "products"
 end

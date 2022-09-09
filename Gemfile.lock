@@ -90,6 +90,7 @@ GEM
     marcel (1.0.2)
     matrix (0.4.2)
     method_source (1.0.0)
+    migration_data (0.6.0)
     mini_mime (1.1.2)
     minitest (5.15.0)
     nio4r (2.5.8)
@@ -211,6 +212,7 @@ DEPENDENCIES
   actionview (>= 6.0.2.2)
   capybara (>= 2.15)
   jbuilder (~> 2.7)
+  migration_data
   nokogiri (>= 1.10.8)
   puma (~> 4.3)
   rails (~> 6.0.0)
