@@ -114,3 +114,4 @@ later, but this is all part of the scenario - real-world code is never as nice a
 
 ## Ideas for Future Work
    - Not all purchases need to be tied to a child, but if the Child model is a proxy for subscriptions, it would still be useful to know which shipments are one-off vs tied to a subscription. The simplest way to do this is to have a user reference on the order, which is required, and then a child/subscription reference, which is optional. This isn't necessary for now, since all orders for a user can be found on a `has_many :through` relationship
+   - We want people to be able to buy multiple products at once. Implement a cart and replace the one-to-many relationship between products and orders/gifts with many-to-many relationship.
