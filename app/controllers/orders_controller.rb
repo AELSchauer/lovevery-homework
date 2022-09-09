@@ -29,19 +29,19 @@ class OrdersController < ApplicationController
   
   def user_params
     {
-      full_name: params.require(:order)[:shipping_name],
-      email_address: params.require(:order)[:purchaser_email]
-    }
-  end
+    full_name: params.require(:order)[:shipping_name],
+    email_address: params.require(:order)[:purchaser_email]
+  }
+end
 
-  def child_params
-    {
-      full_name: params.require(:order)[:child_full_name],
-      birthdate: Date.parse(params.require(:order)[:child_birthdate]),
-    }
-  end
+def child_params
+  {
+  full_name: params.require(:order)[:child_full_name],
+  birthdate: Date.parse(params.require(:order)[:child_birthdate]),
+}
+end
 
-  def credit_card_params
-    params.require(:order).permit( :credit_card_number, :expiration_month, :expiration_year)
-  end
+def credit_card_params
+  params.require(:order).permit( :credit_card_number, :expiration_month, :expiration_year)
+end
 end
