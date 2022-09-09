@@ -28,6 +28,23 @@ Product.find_or_create_by!(
   age_high_weeks: 26
 )
 
+user_1 = User.find_or_create_by!(
+  full_name: "Sammi Johnson",
+  email_address: "sammi.johnson@email.com",
+)
+
+child_1 = Child.find_or_create_by!(
+  full_name: "Chris Smith",
+  birthdate: Date.new(2019,1,4),
+  user: user_1
+)
+
+Child.find_or_create_by!(
+  full_name: "Jane Smith",
+  birthdate: Date.new(2022,3,26),
+  user: user_1
+)
+
 Order.find_or_create_by!(
   product_id: product.id,
   shipping_name: "Chris Smith",
@@ -35,9 +52,16 @@ Order.find_or_create_by!(
   zipcode: "90210",
   user_facing_id: "890890908980980",
   paid: true,
-  child: Child.find_or_create_by!(
-    full_name: "Chris Smith",
-    birthdate: Date.new(2019,1,4),
-    parent_name: "Sammi Johnson"
-  )
+  child: child_1 
+)
+
+user_2 = User.find_or_create_by!(
+  full_name: "Jane Doe",
+  email_address: "jane.doe@email.com",
+)
+
+Child.find_or_create_by!(
+  full_name: "John Doe",
+  birthdate: Date.new(2018,12,12),
+  user: user_2
 )

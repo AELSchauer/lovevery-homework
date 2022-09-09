@@ -22,6 +22,7 @@ RSpec.feature "Purchase Product", type: :feature do
     fill_in "order[expiration_month]", with: 12
     fill_in "order[expiration_year]", with: 25
     fill_in "order[shipping_name]", with: "Pat Jones"
+    fill_in "order[purchaser_email]", with: "pat.jones@email.com"
     fill_in "order[address]", with: "123 Any St"
     fill_in "order[zipcode]", with: 83701
     fill_in "order[child_full_name]", with: "Kim Jones"
@@ -57,6 +58,7 @@ RSpec.feature "Purchase Product", type: :feature do
     fill_in "order[expiration_month]", with: 12
     fill_in "order[expiration_year]", with: 25
     fill_in "order[shipping_name]", with: "Pat Jones"
+    fill_in "order[purchaser_email]", with: "pat.jones@email.com"
     fill_in "order[address]", with: "123 Any St"
     fill_in "order[zipcode]", with: 83701
     fill_in "order[child_full_name]", with: "Kim Jones"
