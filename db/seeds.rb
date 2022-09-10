@@ -28,23 +28,6 @@ Product.find_or_create_by!(
   age_high_weeks: 26
 )
 
-user_1 = User.find_or_create_by!(
-  full_name: "Sammi Johnson",
-  email_address: "sammi.johnson@email.com",
-)
-
-child_1 = Child.find_or_create_by!(
-  full_name: "Chris Smith",
-  birthdate: Date.new(2019,1,4),
-  user: user_1
-)
-
-Child.find_or_create_by!(
-  full_name: "Jane Smith",
-  birthdate: Date.new(2022,3,26),
-  user: user_1
-)
-
 Order.find_or_create_by!(
   product_id: product.id,
   shipping_name: "Chris Smith",
@@ -52,16 +35,67 @@ Order.find_or_create_by!(
   zipcode: "90210",
   user_facing_id: "890890908980980",
   paid: true,
-  child: child_1 
+  created_at: Date.today - 6.months,
+  child: Child.find_or_create_by!(
+    full_name: "Chris Smith",
+    birthdate: Date.new(2019,1,4),
+    created_at: Date.today - 6.months,
+    user: User.find_or_create_by!(
+      full_name: "Sammi Johnson",
+      email_address: "sammi.johnson@email.com",
+      created_at: Date.today - 6.months
+    )
+  ) 
 )
 
-user_2 = User.find_or_create_by!(
-  full_name: "Jane Doe",
-  email_address: "jane.doe@email.com",
+Order.find_or_create_by!(
+  product_id: product.id,
+  shipping_name: "Chris Smith",
+  address: "123 Different Avenue",
+  zipcode: "90211",
+  user_facing_id: "560560605650650",
+  paid: true,
+  child: Child.find_or_create_by!(
+    full_name: "Chris Smith",
+    birthdate: Date.new(2019,1,4),
+    user: User.find_or_create_by!(
+      full_name: "Sammi Johnson",
+      email_address: "sammi.johnson@email.com",
+    )
+  ) 
 )
 
-Child.find_or_create_by!(
-  full_name: "John Doe",
-  birthdate: Date.new(2018,12,12),
-  user: user_2
+Order.find_or_create_by!(
+  product_id: product.id,
+  shipping_name: "Jane Smith",
+  address: "123 Some Road",
+  zipcode: "90210",
+  user_facing_id: "120120201210210",
+  paid: true,
+  child: Child.find_or_create_by!(
+    full_name: "Jane Smith",
+    birthdate: Date.new(2022,3,26),
+    user: User.find_or_create_by!(
+      full_name: "Sammi Johnson",
+      email_address: "sammi.johnson@email.com",
+    )
+  )
+)
+
+
+Order.find_or_create_by!(
+  product_id: product.id,
+  shipping_name: "Mary Jones",
+  address: "123 Any St",
+  zipcode: "12345",
+  user_facing_id: "340340403430430",
+  paid: true,
+  child: Child.find_or_create_by!(
+    full_name: "Mary Jones",
+    birthdate: Date.new(2022,3,26),
+    user: User.find_or_create_by!(
+      full_name: "John Jones",
+      email_address: "john.jones@email.com",
+    )
+  )
 )
