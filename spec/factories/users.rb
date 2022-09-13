@@ -1,8 +1,11 @@
 FactoryBot.define do
   factory :user do
-    name = Faker::Name.name
+    full_name { Faker::Name.name }
+    email_address { Faker::Internet.email(name: full_name) }
 
-    full_name { name }
-    email_address { Faker::Internet.email(name: name) }
+    trait :in_past do
+      created_at { Date.today - 6.months }
+      updated_at { Date.today - 6.months }
+    end
   end
 end
