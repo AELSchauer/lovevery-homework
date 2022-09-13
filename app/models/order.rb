@@ -1,6 +1,7 @@
 class Order < ApplicationRecord
   belongs_to :product
   belongs_to :child
+  has_one :gift, required: false
 
   validates :shipping_name, presence: true
 

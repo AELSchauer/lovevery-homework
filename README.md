@@ -105,13 +105,29 @@ later, but this is all part of the scenario - real-world code is never as nice a
 1) The Child model didn't pass the "smell test". 
    
    The way the Child model was setup was not very extensible and it didn't follow standard code practices. The model should've focused on the primary user (i.e. the parent) rather than the child since the parent could have multiple children and is the manager of the household and any account data we add in the future.
+   
+   However, for a couple reasons, it is not advisable right now to transition the relationship from orders -> child to orders -> user. First, it would've required much greater changes to the code base -- controllers, views, tests, etc. We want to practice iterative development and break up any disruptions into smaller chunks. Second, we can still access all the orders and gifts for a user on a `has_many :through` relationship. Third, I mention in the "Ideas for future work" section below. We need to better understand what the actual requirements are for the Child model.
 
-   Ultimately, with gifting, the functionality to lookup the recipients shipping information based on a previous order is terrible practice. First, it requires that the user already made an order. Second, there could be multiple addresses assigned to a specific child. Third, it assumes that any of the addresses are accurate. With the parent-children model, we can let the parent set the shipping address for an order from their account.
+   Ultimately, with gifting, the functionality to lookup the recipients shipping information based on a previous order is not best practice. First, it requires that the user has already made an order. Second, there could be multiple addresses assigned to a specific child (e.g. separated parents). Third, it assumes that any of the addresses are still accurate. With the parent-children model, we can let the parent set the shipping address for an order from their account. Ultimately, the functionality where a user can set their preferred address requires the prerequisite account management infrastructure.
 
    Making this change required a lot of alerations to the database and the models. I went with the assumption that this change would affect a small production dataset, so I wanted to include data in the migration as well. If this migration were going to affect a larger table, I would explore a faster, more efficient solution, and include a implementation plan to reduce any side-effects to production operations.
 
+2) Gifting should be flexible and extensible
 
+   Following the single responsibility principle, we want to make sure gifting functionality is based in its own table rather than leveraging off the Orders table with a simple `is_gift` field. This allows gifting to be much more flexible and extensible going into the future.
 
-## Ideas for Future Work
-   - Not all purchases need to be tied to a child, but if the Child model is a proxy for subscriptions, it would still be useful to know which shipments are one-off vs tied to a subscription. The simplest way to do this is to have a user reference on the order, which is required, and then a child/subscription reference, which is optional. This isn't necessary for now, since all orders for a user can be found on a `has_many :through` relationship
-   - We want people to be able to buy multiple products at once. Implement a cart and replace the one-to-many relationship between products and orders/gifts with many-to-many relationship.
+3) Ideas for future work
+
+   See the image titled "README -- Lovevery Architecture Diagram"
+
+   I wanted to capture what I saw as some of the architectural stages of this code base. The starting state is the code that this repo started with. The "final" state is what I imagine the basic relationships should be after implementing the fixes I mentioned above and then some. The middle state represents what is currently in the code based on my changes.
+
+   One important thing to note is that I have always viewed Child as a proxy for something else in this application that could be better served by other data models. Knowing what I do about Lovevery's business, I saw the Child model most closely as a proxy for the Subscription model.
+
+   Although I didn't include the actual table fields in the image, its important to callout the major differences between the current and "final" state on tables like Gifts or Orders. 
+   
+   A) Gift subscriptions would need to be tied to the recipient's account. For ease and visibility, the gift giver would print or email a subscription redemption code, which would require the recipient to create an account or tie the subscription to a current account.
+
+   B) We want to differentiate Orders from Fulfillments, especially when non-physical products and subscriptions are offered.
+
+   C) It's pretty standard practice to allow people to purchase multiple items at once. Implement a cart.
