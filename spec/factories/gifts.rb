@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :gift do
-    name = Faker::Name.name
-
-    purchaser_name { name }
-    purchaser_email { Faker::Internet.email(name: name) }
+    purchaser_name { Faker::Name.name }
+    purchaser_email { Faker::Internet.email(name: purchaser_name) }
+    child { child }
+    order { create(:order, child: child) }
   end
 end

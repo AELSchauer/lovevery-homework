@@ -131,3 +131,9 @@ later, but this is all part of the scenario - real-world code is never as nice a
    B) We want to differentiate Orders from Fulfillments, especially when non-physical products and subscriptions are offered.
 
    C) It's pretty standard practice to allow people to purchase multiple items at once. Implement a cart.
+
+4) Fixes and enhancements to the current code
+
+   A) Update the orders controller to handle errors. Form validation errors should be caught on the FE. BE validation errors should return error messages. Failures should return error pages (e.g. 404)
+
+   B) Update `create` method so errors render new page with the correct url.

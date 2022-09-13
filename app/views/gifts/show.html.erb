@@ -14,7 +14,7 @@
       </h3>
       <h3 class="card-subtitle text-white font-weight-lighter h5 mb-2">Gift Message:</h3>
       <p class="card-text">
-        <% if @gift.gift_message.nil? %>
+        <% if @gift.gift_message.empty? %>
           <em>No gift message provided.<em>
         <% else %>
           <em><%= @gift.gift_message %><em>
